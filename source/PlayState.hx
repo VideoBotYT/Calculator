@@ -31,7 +31,7 @@ class PlayState extends FlxState
 
 	override public function create()
 	{
-		bg = new FlxBackdrop(Paths.image("VideoBot"));
+		bg = new FlxBackdrop("assets/images/VideoBot.png");
 		bg.velocity.set(10, 10);
 		bg.scale.set(0.25, 0.25);
 		add(bg);
@@ -46,7 +46,6 @@ class PlayState extends FlxState
 
 		exitButton = new FlxButton(-20, 10, "X", function()
 		{
-			FlxG.sound.play(Paths.sound("button"), 0.5);
 			new FlxTimer().start(1.4, function(tmr:FlxTimer)
 			{
 				FlxG.switchState(new TitleState());
