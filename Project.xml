@@ -27,6 +27,8 @@
 	<!--Mobile-specific-->
 	<window if="mobile" orientation="landscape" fullscreen="true" width="0" height="0" />
 
+	<define name="CRASH_HANDLER"/>
+
 	<!-- _____________________________ Path Settings ____________________________ -->
 
 	<set name="BUILD_DIR" value="export" />
@@ -43,13 +45,15 @@
 	<!--In case you want to use the ui package-->
 	<haxelib name="flixel-ui" />
 
+	<haxelib name="discord_rpc"/>
+
 	<!--In case you want to use nape with flixel-->
 	<!--<haxelib name="nape-haxe4" />-->
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
 	<!--Remove the legacy health system-->
-	<haxedef name="FLX_NO_HEALTH" />
+	<!--<haxedef name="FLX_NO_HEALTH" />-->
 	
 	<!--Enable the Flixel core recording system-->
 	<!--<haxedef name="FLX_RECORD" />-->

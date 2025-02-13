@@ -1,16 +1,19 @@
 package;
 
+import Discord.DiscordClient;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
-import flixel.addons.ui.FlxUINumericStepper;
 import flixel.ui.FlxButton;
 import flixel.util.FlxTimer;
+import lime.app.Application;
 
 class TitleState extends FlxState
 {
 	var bg:FlxSprite;
 	var playButton:FlxButton;
+
+	var exitGame:FlxButton;
 
 	override function create()
 	{
@@ -34,6 +37,22 @@ class TitleState extends FlxState
 		});
 		playButton.screenCenter(X);
 		add(playButton);
+
+		exitGame = new FlxButton(0, 0, "Exit", function()
+		{
+			openfl.system.System.exit(0);
+		});
+		exitGame.scale.x = 0.5;
+		add(exitGame);
+
+		if (!DiscordClient.isInitialized)
+		{
+			DiscordClient.initialize();
+			Application.current.onExit.add(function(exitCode)
+			{
+				DiscordClient.shutdown();
+			});
+		}
 
 		super.create();
 	}

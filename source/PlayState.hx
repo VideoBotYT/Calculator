@@ -7,7 +7,6 @@ import flixel.FlxState;
 import flixel.addons.display.FlxBackdrop;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.addons.ui.FlxUIInputText;
-import flixel.input.keyboard.FlxKey;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
@@ -22,6 +21,9 @@ class PlayState extends FlxState
 	var mathInput2:FlxUIInputText;
 	var mathValue:FlxUIDropDownMenuCustom;
 	var mathOutput:FlxUIInputText;
+
+	var useOutput:FlxButton;
+	var reset:FlxButton;
 
 	var mathString:String;
 	var mathString2:String;
@@ -70,6 +72,20 @@ class PlayState extends FlxState
 		mathValue = new FlxUIDropDownMenuCustom(0, 0, FlxUIDropDownMenuCustom.makeStrIdLabelArray(["+", "-", "*", "/", "sqr", "carrot", "pow"], true));
 		mathValue.screenCenter();
 		add(mathValue);
+		
+		useOutput = new FlxButton(mathValue.x, mathValue.y - 80, "Use Output", function()
+		{
+			returnOutPut();
+		});
+		useOutput.screenCenter(X);
+		add(useOutput);
+		
+		reset = new FlxButton(useOutput.x, useOutput.y + 40, "Reset", function()
+		{
+			resetCalc();
+		});
+		reset.screenCenter(X);
+		add(reset);
 
 		super.create();
 	}
@@ -104,5 +120,17 @@ class PlayState extends FlxState
 			case 'pow':
 				mathOutput.text = Std.string(Math.pow(Std.parseFloat(mathString), Std.parseFloat(mathString2)));
 		}
+	}
+
+	function returnOutPut()
+	{
+		mathInput.text = mathOutput.text;
+	}
+	function resetCalc()
+	{
+		mathInput.text = "";
+		mathInput2.text = "";
+		mathOutput.text = "";
+		mathValue.selectedLabel = '+';
 	}
 }
