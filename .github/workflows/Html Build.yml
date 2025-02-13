@@ -1,0 +1,39 @@
+name: Html Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Haxe
+        uses: haxe-action/setup-haxe@v1
+        with:
+          haxe-version: "latest"
+
+      - name: Install HaxeFlixel and other libraries
+        run: |
+          haxelib install flixel
+          haxelib install flixel-addons
+          haxelib install flixel-ui
+          haxelib install discord_rpc
+
+      - name: Build Project
+        run: |
+          haxelib run flixel-tools build html5
+
+      - name: Archive built project
+        uses: actions/upload-artifact@v2
+        with:
+          name: built-project
+          path: export/html5/bin
