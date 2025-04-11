@@ -45,9 +45,12 @@ class Alphabet extends FlxSpriteGroup
 	{
 		super(x, y);
 
+		var r = ~/r/g;
+
 		this.startPosition.x = x;
 		this.startPosition.y = y;
 		this.bold = bold;
+		this.text = text;
 	}
 
 	public function setAlignmentFromString(align:String)
@@ -389,9 +392,7 @@ class AlphaCharacter extends FlxSprite
 	{
 		super(x, y);
 		this.parent = parent;
-
 		image = 'alphabet';
-
 		var curLetter:Letter = allLetters.get('?');
 
 		var lowercase = character.toLowerCase();

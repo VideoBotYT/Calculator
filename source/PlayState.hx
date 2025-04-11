@@ -30,28 +30,33 @@ class PlayState extends FlxState
 	var mathStuf:String;
 
 	var exitButton:FlxButton;
+	var optionsButton:FlxButton;
 
 	override public function create()
 	{
-		bg = new FlxBackdrop(Paths.image("VideoBot"));
-		bg.velocity.set(10, 10);
-		bg.scale.set(0.25, 0.25);
-		add(bg);
+		Prefs.initialize();
+		if (Prefs.data.bg)
+		{
+			bg = new FlxBackdrop(Paths.image("VideoBot"));
+			bg.velocity.set(10, 10);
+			bg.scale.set(0.25, 0.25);
+			add(bg);
 
-		darken = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-		darken.alpha = 0.6;
-		add(darken);
+			darken = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+			darken.alpha = 0.6;
+			add(darken);
 
-		grid = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x33FFFFFF, 0x0));
-		grid.velocity.set(-20, 20);
-		add(grid);
+			grid = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x33FFFFFF, 0x0));
+			grid.velocity.set(-20, 20);
+			add(grid);
+		}
 
 		exitButton = new FlxButton(-20, 10, "X", function()
 		{
 			FlxG.sound.play(Paths.sound("button"), 0.5);
 			new FlxTimer().start(1.4, function(tmr:FlxTimer)
 			{
-				FlxG.switchState(new TitleState());
+				openfl.system.System.exit(0);
 			});
 		});
 		exitButton.scale.x = 0.25;
@@ -72,20 +77,27 @@ class PlayState extends FlxState
 		mathValue = new FlxUIDropDownMenuCustom(0, 0, FlxUIDropDownMenuCustom.makeStrIdLabelArray(["+", "-", "*", "/", "sqr", "carrot", "pow"], true));
 		mathValue.screenCenter();
 		add(mathValue);
-		
+
 		useOutput = new FlxButton(mathValue.x, mathValue.y - 80, "Use Output", function()
 		{
 			returnOutPut();
 		});
 		useOutput.screenCenter(X);
 		add(useOutput);
-		
+
 		reset = new FlxButton(useOutput.x, useOutput.y + 40, "Reset", function()
 		{
 			resetCalc();
 		});
 		reset.screenCenter(X);
 		add(reset);
+
+		optionsButton = new FlxButton(reset.x, reset.y - 20, "Options", function()
+		{
+			FlxG.sound.play(Paths.sound("button"), 0.5);
+			FlxG.switchState(new options.OptionState());
+		});
+		add(optionsButton);
 
 		super.create();
 	}
@@ -126,6 +138,7 @@ class PlayState extends FlxState
 	{
 		mathInput.text = mathOutput.text;
 	}
+
 	function resetCalc()
 	{
 		mathInput.text = "";
